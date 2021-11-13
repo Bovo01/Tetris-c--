@@ -1,1 +1,1 @@
-g++ -o Tetris Main.cpp Tetris\Tetrimino.cpp Tetris\TetrisGrid.cpp
+g++ -o Tetris Main.cpp Tetris\Tetrimino.cpp Tetris\TetrisGrid.cpp Tetris\keys.cpp

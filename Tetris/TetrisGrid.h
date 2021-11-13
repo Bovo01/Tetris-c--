@@ -1,4 +1,8 @@
+#ifndef TETRIS_GRID_H
+#define TETRIS_GRID_H
+
 #include "Tetrimino.h"
+#include <iostream>
 
 namespace Tetris
 {
@@ -7,17 +11,36 @@ namespace Tetris
   private:
     /*Griglia di gioco che contiene i blocchi
       (il numero corrisponde al tipo di blocco determinato dall'enum TetriminoType)*/
-    int _grid[10][20];
-    int _score;
-    int _level;
+    int *_grid;
+    int _width{10};
+    int _height{20};
+    int _score{0};
+    int _level{1};
     // Array of the next tetriminos
-    TetriminoType *_nextTetriminos;
-    int _nextTetriminosNumber;
+    int *_nextTetriminos;
+    int _nextTetriminosNumber{4};
+    // Object of the current tetrimino
+    Tetrimino _currentTetrimino;
+
+    // Private methods
+    void initialize_matrix(void);
+    void next_tetrimino(void);
 
   public:
+    // Constructors / Destructor
     TetrisGrid();
     ~TetrisGrid();
 
-    void show(void) const;
+    // Getters
+    int width(void) const;
+    int height(void) const;
+    int get(int i, int j) const;
+    // Graphics
+    void draw(void) const;
+    friend std::ostream &operator<<(std::ostream &os, const TetrisGrid &grid);
+    // Events
+    void key_pressed(int key);
   };
 }
+
+#endif

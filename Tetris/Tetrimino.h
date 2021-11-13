@@ -25,12 +25,17 @@ namespace Tetris
   {
   private:
     TetriminoType _type;
-    Position _position;
+    Position _centerPosition;
+    Position _positions[4];
 
   public:
+    // Constructors / Destructor
+    Tetrimino();
     Tetrimino(TetriminoType type);
-    Tetrimino(TetriminoType type, Position position);
+    Tetrimino(TetriminoType type, Position centerPosition);
     ~Tetrimino();
+    // Assignment operator
+    Tetrimino &operator=(const Tetrimino &other);
 
     void rotate(short direction);
     void move(short x_amount);
