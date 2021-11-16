@@ -36,6 +36,16 @@ namespace Tetris
     int height(void) const;
     int get(int i, int j) const;
     Tetrimino current_tetrimino(void) const;
+    // Methods
+    int speed(void) const;
+    bool is_game_over(void) const;
+
+    // Tetrimino modification
+    void move_right(void);
+    void move_left(void);
+    void move_down(void);
+    void rotate(void);
+    void rotate_counter(void);
     // Graphics
     void draw(void) const;
     friend std::ostream &operator<<(std::ostream &os, const TetrisGrid &grid);

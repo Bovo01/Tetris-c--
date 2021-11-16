@@ -89,8 +89,6 @@ namespace Tetris
   // Move the tetrimino
   void Tetrimino::move(short x_amount, short y_amount)
   {
-    std::cout << "Moving tetrimino" << std::endl;
-    std::cout << _pivot_x << " " << _pivot_y << std::endl;
     _pivot_x += x_amount;
     _pivot_y += y_amount;
     for (int i = 0; i < 4; i++)
@@ -98,7 +96,6 @@ namespace Tetris
       _positions[i].x += x_amount;
       _positions[i].y += y_amount;
     }
-    std::cout << _pivot_x << " " << _pivot_y << std::endl;
   }
 
   // Rotate the tetrimino

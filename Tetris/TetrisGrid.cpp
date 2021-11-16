@@ -4,6 +4,7 @@
 
 namespace Tetris
 {
+  // Constructor
   TetrisGrid::TetrisGrid()
   {
     srand((unsigned)time(0)); // Creo un seed random
@@ -15,14 +16,15 @@ namespace Tetris
       _nextTetriminos[i] = rand() % 7 + 1;
     }
     _currentTetrimino =
-        {static_cast<TetriminoType>(rand() % 7 + 1)};
+        {static_cast<TetriminoType>(rand() % 7 + 1), this};
   }
+  // Destructor
   TetrisGrid::~TetrisGrid()
   {
     delete[] _grid;
     delete[] _nextTetriminos;
   }
-
+  // Inizializzo la matrice
   void TetrisGrid::initialize_matrix(void)
   {
     _grid = new int[_width * _height];
@@ -31,11 +33,11 @@ namespace Tetris
       _grid[i] = 0;
     }
   }
-
+  // Inizializzo il prossimo blocco
   void TetrisGrid::next_tetrimino(void)
   {
     _currentTetrimino =
-        {static_cast<TetriminoType>(rand() % 7 + 1)};
+        {static_cast<TetriminoType>(rand() % 7 + 1), this};
     for (int i = 0; i < _nextTetriminosNumber - 1; i++)
     {
       _nextTetriminos[i] = _nextTetriminos[i + 1];
@@ -54,6 +56,9 @@ namespace Tetris
   {
     return _currentTetrimino;
   }
+  // Methods
+  int TetrisGrid::speed(void) const { return 1000 / _level; }
+  bool TetrisGrid::is_game_over(void) const { return false; };
 
   // Graphics
   void TetrisGrid::draw(void) const
@@ -76,7 +81,7 @@ namespace Tetris
           continue;
         }
         // TODO output blocco in base al tipo salvato in _grid
-        if (grid.current_tetrimino().is_occupied(i - 1, j - 1))
+        if (grid.current_tetrimino().is_occupied(j - 1, i - 1))
           os << 'X';
         else
         {
@@ -90,7 +95,7 @@ namespace Tetris
     }
     return os;
   }
-  // Events
+  // KeyPressed event
   void TetrisGrid::key_pressed(int key)
   {
     using namespace Tetris::KEYS;
@@ -98,31 +103,38 @@ namespace Tetris
     {
     case KEY_SPACE:
       // TODO Rotate inverse
-      _currentTetrimino.rotate(-1);
+      rotate_counter();
       break;
     case KEY_UP:
     case KEY_W:
       // TODO Rotate
-      _currentTetrimino.rotate(1);
+      rotate();
       break;
     case KEY_DOWN:
     case KEY_S:
       // TODO Move down
-      _currentTetrimino.move(0, 1);
+      move_down();
       break;
     case KEY_LEFT:
     case KEY_A:
       // TODO Move left
-      _currentTetrimino.move(-1);
+      move_left();
       break;
     case KEY_RIGHT:
     case KEY_D:
       // TODO Move right
-      _currentTetrimino.move(1);
+      move_right();
       break;
     case ESC:
       // TODO Open menu
       break;
     }
   }
+
+  // Tetrimino modification
+  void TetrisGrid::move_right(void) { _currentTetrimino.move(1); }
+  void TetrisGrid::move_left(void) { _currentTetrimino.move(-1); }
+  void TetrisGrid::move_down(void) { _currentTetrimino.move(0, 1); }
+  void TetrisGrid::rotate(void) { _currentTetrimino.rotate(1); }
+  void TetrisGrid::rotate_counter(void) { _currentTetrimino.rotate(-1); }
 }
