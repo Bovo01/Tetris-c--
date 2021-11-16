@@ -1,8 +1,8 @@
 #ifndef TETRIS_GRID_H
 #define TETRIS_GRID_H
 
-#include "Tetrimino.h"
 #include <iostream>
+#include "Tetrimino.h"
 
 namespace Tetris
 {
@@ -35,6 +35,7 @@ namespace Tetris
     int width(void) const;
     int height(void) const;
     int get(int i, int j) const;
+    Tetrimino current_tetrimino(void) const;
     // Graphics
     void draw(void) const;
     friend std::ostream &operator<<(std::ostream &os, const TetrisGrid &grid);
@@ -43,4 +44,4 @@ namespace Tetris
   };
 }
 
-#endif
+#endif // TETRIS_GRID_H

@@ -1,4 +1,5 @@
 #include "./Tetris/TetrisGrid.h"
+#include "./Tetris/Tetrimino.h"
 #include <iostream>
 #include <Windows.h>
 using namespace Tetris;
@@ -11,6 +12,8 @@ int main()
   while (true)
   {
     system("cls");
+    grid.draw();
+    break;
   }
 
   return 0;

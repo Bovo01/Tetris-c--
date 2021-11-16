@@ -12,12 +12,14 @@ namespace Tetris
     _nextTetriminos = new int[_nextTetriminosNumber];
     for (int i = 0; i < _nextTetriminosNumber; i++)
     {
-      _nextTetriminos[i] = rand() % 7;
+      _nextTetriminos[i] = rand() % 7 + 1;
     }
-    _currentTetrimino = *(new Tetrimino(static_cast<TetriminoType>(rand() % 7)));
+    _currentTetrimino =
+        {static_cast<TetriminoType>(rand() % 7 + 1)};
   }
   TetrisGrid::~TetrisGrid()
   {
+    delete[] _grid;
     delete[] _nextTetriminos;
   }
 
@@ -32,12 +34,13 @@ namespace Tetris
 
   void TetrisGrid::next_tetrimino(void)
   {
-    _currentTetrimino = *(new Tetrimino(static_cast<TetriminoType>(_nextTetriminos[0])));
+    _currentTetrimino =
+        {static_cast<TetriminoType>(rand() % 7 + 1)};
     for (int i = 0; i < _nextTetriminosNumber - 1; i++)
     {
       _nextTetriminos[i] = _nextTetriminos[i + 1];
     }
-    _nextTetriminos[_nextTetriminosNumber - 1] = rand() % 7;
+    _nextTetriminos[_nextTetriminosNumber - 1] = rand() % 7 + 1;
   }
 
   // Getters
@@ -46,6 +49,10 @@ namespace Tetris
   int TetrisGrid::get(int i, int j) const
   {
     return _grid[i + j * _width];
+  }
+  Tetrimino TetrisGrid::current_tetrimino(void) const
+  {
+    return _currentTetrimino;
   }
 
   // Graphics
@@ -69,39 +76,49 @@ namespace Tetris
           continue;
         }
         // TODO output blocco in base al tipo salvato in _grid
-        if (grid.get(i - 1, j - 1) == 0)
-          os << ' ';
+        if (grid.current_tetrimino().is_occupied(i - 1, j - 1))
+          os << 'X';
         else
-          os << grid.get(i - 1, j - 1); //TODO Converti in carattere colorato
+        {
+          if (grid.get(i - 1, j - 1) == 0)
+            os << ' ';
+          else
+            os << grid.get(i - 1, j - 1); //TODO Converti in carattere colorato
+        }
       }
       os << std::endl;
     }
     return os;
   }
   // Events
-  void key_pressed(int key)
+  void TetrisGrid::key_pressed(int key)
   {
     using namespace Tetris::KEYS;
     switch (key)
     {
     case KEY_SPACE:
       // TODO Rotate inverse
+      _currentTetrimino.rotate(-1);
       break;
     case KEY_UP:
     case KEY_W:
       // TODO Rotate
+      _currentTetrimino.rotate(1);
       break;
     case KEY_DOWN:
     case KEY_S:
       // TODO Move down
+      _currentTetrimino.move(0, 1);
       break;
     case KEY_LEFT:
     case KEY_A:
       // TODO Move left
+      _currentTetrimino.move(-1);
       break;
     case KEY_RIGHT:
     case KEY_D:
       // TODO Move right
+      _currentTetrimino.move(1);
       break;
     case ESC:
       // TODO Open menu
