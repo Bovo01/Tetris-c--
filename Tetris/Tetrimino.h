@@ -7,7 +7,7 @@ namespace Tetris
   struct Position
   {
     Position() {}
-    Position(float x, float y) : x(x), y(x) {}
+    Position(short x, short y) : x(x), y(y) {}
     float x{4};
     float y{0};
     Position &operator=(const Position &other)
@@ -35,16 +35,17 @@ namespace Tetris
   {
   private:
     TetriminoType _type;
-    Position _pivot;
+    float _pivot_x;
+    float _pivot_y;
     Position _positions[4];
     TetrisGrid *_grid;
 
     void initialize_position(TetriminoType type);
 
   public:
-    // Constructors / Destructor
+    // Constructor / Destructor
     Tetrimino();
-    Tetrimino(TetriminoType type);
+    Tetrimino(TetriminoType type, TetrisGrid *grid);
     ~Tetrimino();
     // Assignment operator
     Tetrimino &operator=(const Tetrimino &other);
