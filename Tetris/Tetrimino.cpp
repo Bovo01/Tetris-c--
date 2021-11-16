@@ -63,7 +63,7 @@ namespace Tetris
       _positions[2] = Position(_pivot_x, 0);
       _positions[3] = Position(_pivot_x - 1, 0);
       break;
-    case T: // TODO Posizione iniziale T
+    case T:
       _pivot_x = (int)_grid->width() / 2;
       _positions[0] = Position(_pivot_x + 1, 1);
       _positions[1] = Position(_pivot_x, 1);

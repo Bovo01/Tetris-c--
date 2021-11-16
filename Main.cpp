@@ -2,6 +2,7 @@
 #include "./Tetris/Tetrimino.h"
 #include <iostream>
 #include <Windows.h>
+#include <conio.h>
 #include <thread>
 using namespace Tetris;
 using namespace std;
@@ -10,7 +11,7 @@ using namespace std;
 void draw(void);
 void go_down(void);
 
-// Variabili globali
+// Global variables
 TetrisGrid grid;
 
 int main()
@@ -19,14 +20,14 @@ int main()
 
   while (!grid.is_game_over())
   {
-    //system("cls");
-    //grid.draw();
-    //break;
+    grid.key_pressed(_getch());
+    draw();
   }
 
   return 0;
 }
 
+// Functions
 void draw(void)
 {
   system("cls");
@@ -37,7 +38,7 @@ void go_down(void)
 {
   while (!grid.is_game_over())
   {
-    Sleep(1000);
+    Sleep(grid.speed());
     grid.move_down();
     draw();
   }

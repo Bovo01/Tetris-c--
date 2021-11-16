@@ -58,7 +58,7 @@ namespace Tetris
   }
   // Methods
   int TetrisGrid::speed(void) const { return 1000 / _level; }
-  bool TetrisGrid::is_game_over(void) const { return false; };
+  bool TetrisGrid::is_game_over(void) const { return false; } // TODO check if game is over
 
   // Graphics
   void TetrisGrid::draw(void) const
