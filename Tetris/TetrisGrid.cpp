@@ -81,7 +81,7 @@ namespace Tetris
   }
   // Methods
   int TetrisGrid::speed(void) const { return 1000 / _level; }
-  bool TetrisGrid::is_game_over(void) const { return false; } // TODO check if game is over
+  bool TetrisGrid::is_game_over(void) const { return _is_game_over; } // TODO check if game is over
 
   // Graphics
   std::ostream &operator<<(std::ostream &os, const TetrisGrid &grid)
@@ -156,9 +156,42 @@ namespace Tetris
       {
         get(positions[i].x, positions[i].y) = _currentTetrimino.type();
       }
+      delete_lines();
       next_tetrimino();
     }
   }
   void TetrisGrid::rotate(void) { _currentTetrimino.rotate(1); }
   void TetrisGrid::rotate_counter(void) { _currentTetrimino.rotate(-1); }
+  // Lines deletion
+  int TetrisGrid::delete_lines(void)
+  {
+    int count = 0;
+    for (int j = 0; j < _height; j++)
+    {
+      bool full = true;
+      for (int i = 0; i < _width && full; i++)
+      {
+        if (get(i, j) == TetriminoType::NONE)
+          full = false;
+      }
+      if (full)
+      {
+        // TODO Porta tutto in basso di uno
+        for (int k = j; k >= 0; k--)
+        {
+          for (int i = 0; i < _width; i++)
+          {
+            if (k != 0)
+              get(i, k) = get(i, k - 1);
+            else
+              get(i, k) = TetriminoType::NONE;
+          }
+        }
+        count++;
+      }
+    }
+    return count;
+  }
+
+  void TetrisGrid::game_over(void) { _is_game_over = true; }
 }

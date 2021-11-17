@@ -22,6 +22,8 @@ namespace Tetris
     // Object of the current tetrimino
     Tetrimino _currentTetrimino;
 
+    bool _is_game_over{false};
+
     // Private methods
     void initialize_matrix(void);
     void next_tetrimino(void);
@@ -46,6 +48,10 @@ namespace Tetris
     void move_down(void);
     void rotate(void);
     void rotate_counter(void);
+    // Lines deletion
+    int delete_lines(void);
+    // End of game
+    void game_over(void);
     // Graphics
     void draw(void) const;
     friend std::ostream &operator<<(std::ostream &os, const TetrisGrid &grid);

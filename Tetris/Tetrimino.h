@@ -68,13 +68,13 @@ namespace Tetris
     Tetrimino &operator=(const Tetrimino &other);
 
     // Conditionals
+    bool is_occupied(short x, short y);
     bool can_rotate(short times) const;
     bool can_move(short x_amount, short y_amount = 0) const;
     // Actions
     bool rotate(short times);
     bool move(short x_amount, short y_amount = 0);
-
-    bool is_occupied(short x, short y);
+    int delete_lines(void);
   };
 }
 

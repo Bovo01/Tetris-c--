@@ -11,6 +11,14 @@ namespace Tetris
   Tetrimino::Tetrimino(TetriminoType type, TetrisGrid *grid) : _type(type), _grid(grid)
   {
     initialize_position(type);
+    for (int i = 0; i < 4; i++)
+    {
+      if (_grid->get(_positions[i].x, _positions[i].y) != TetriminoType::NONE)
+      {
+        _grid->game_over();
+        break;
+      }
+    }
   }
   // Destructor
   Tetrimino::~Tetrimino() {}
@@ -96,6 +104,17 @@ namespace Tetris
   }
 
   // Conditionals
+  // Returns true if the tetrimino occupies that position
+  bool Tetrimino::is_occupied(short x, short y)
+  {
+    for (int i = 0; i < 4; i++)
+    {
+      if (_positions[i].x == x && _positions[i].y == y)
+        return true;
+    }
+    return false;
+  }
+  // Returns false if the position is occupied by a block
   bool Tetrimino::can_move(short x_amount, short y_amount) const
   {
     for (int i = 0; i < 4; i++)
@@ -107,6 +126,7 @@ namespace Tetris
     }
     return true;
   }
+  // Returns false if the rotation brings the tetrimino in a position occupied by a block
   bool Tetrimino::can_rotate(short times) const
   {
     double angle = (times % 4) * M_PI / 2;
@@ -154,16 +174,5 @@ namespace Tetris
       _positions[i].y = _pivot_y + (sen * (x - _pivot_x) + cose * (y - _pivot_y));
     }
     return true;
-  }
-
-  // Returns true if the tetrimino occupies that position
-  bool Tetrimino::is_occupied(short x, short y)
-  {
-    for (int i = 0; i < 4; i++)
-    {
-      if (_positions[i].x == x && _positions[i].y == y)
-        return true;
-    }
-    return false;
   }
 }
