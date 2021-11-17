@@ -34,7 +34,7 @@ namespace Tetris
     // Getters
     int width(void) const;
     int height(void) const;
-    TetriminoType get(int i, int j) const;
+    TetriminoType &get(int i, int j) const;
     Tetrimino current_tetrimino(void) const;
     // Methods
     int speed(void) const;

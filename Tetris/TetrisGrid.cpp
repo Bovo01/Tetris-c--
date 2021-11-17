@@ -71,7 +71,7 @@ namespace Tetris
   // Getters
   int TetrisGrid::width(void) const { return _width; }
   int TetrisGrid::height(void) const { return _height; }
-  TetriminoType TetrisGrid::get(int i, int j) const
+  TetriminoType &TetrisGrid::get(int i, int j) const
   {
     return _grid[i + j * _width];
   }
@@ -147,7 +147,18 @@ namespace Tetris
   // Tetrimino modification
   void TetrisGrid::move_right(void) { _currentTetrimino.move(1); }
   void TetrisGrid::move_left(void) { _currentTetrimino.move(-1); }
-  void TetrisGrid::move_down(void) { _currentTetrimino.move(0, 1); }
+  void TetrisGrid::move_down(void)
+  {
+    if (!_currentTetrimino.move(0, 1))
+    {
+      Position *positions = _currentTetrimino.occupied_positions();
+      for (int i = 0; i < 4; i++)
+      {
+        get(positions[i].x, positions[i].y) = _currentTetrimino.type();
+      }
+      next_tetrimino();
+    }
+  }
   void TetrisGrid::rotate(void) { _currentTetrimino.rotate(1); }
   void TetrisGrid::rotate_counter(void) { _currentTetrimino.rotate(-1); }
 }

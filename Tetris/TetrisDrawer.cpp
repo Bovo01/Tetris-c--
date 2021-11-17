@@ -22,17 +22,10 @@ namespace Tetris
         }
         // TODO output blocco in base al tipo salvato in _grid
         if (grid.current_tetrimino().is_occupied(j - 1, i - 1))
-        {
           SetConsoleTextAttribute(hConsole, Tetris::get_color_from_tetrimino(grid.current_tetrimino().type()));
-          std::cout << ' ';
-        }
-        else
-        {
-          if (grid.get(i - 1, j - 1) == NONE)
-            std::cout << ' ';
-          else
-            std::cout << grid.get(i - 1, j - 1); //TODO Converti in carattere colorato
-        }
+        else if (grid.get(j - 1, i - 1) != NONE)
+          SetConsoleTextAttribute(hConsole, Tetris::get_color_from_tetrimino(grid.get(j - 1, i - 1)));
+        std::cout << ' ';
         SetConsoleTextAttribute(hConsole, DEFAULT_COLOR_BACKGROUND);
       }
       std::cout << std::endl;

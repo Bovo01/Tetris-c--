@@ -63,6 +63,7 @@ namespace Tetris
     ~Tetrimino();
     // Getters
     TetriminoType type(void) const;
+    Position *occupied_positions(void);
     // Assignment operator
     Tetrimino &operator=(const Tetrimino &other);
 

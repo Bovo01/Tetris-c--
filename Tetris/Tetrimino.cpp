@@ -80,6 +80,7 @@ namespace Tetris
 
   // Getters
   TetriminoType Tetrimino::type(void) const { return _type; }
+  Position *Tetrimino::occupied_positions(void) { return &_positions[0]; };
   // Assignment operator
   Tetrimino &Tetrimino::operator=(const Tetrimino &other)
   {
