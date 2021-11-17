@@ -23,7 +23,7 @@ int main()
   while (!grid.is_game_over())
   {
     grid.key_pressed(_getch());
-    draw(grid);
+    draw(grid, hConsole);
   }
 
   return 0;
@@ -36,6 +36,6 @@ void go_down(void)
   {
     Sleep(grid.speed());
     grid.move_down();
-    draw(grid);
+    draw(grid, hConsole);
   }
 }

@@ -11,7 +11,7 @@ namespace Tetris
   private:
     /*Griglia di gioco che contiene i blocchi
       (il numero corrisponde al tipo di blocco determinato dall'enum TetriminoType)*/
-    int *_grid;
+    TetriminoType *_grid;
     int _width{10};
     int _height{20};
     int _score{0};
@@ -34,7 +34,7 @@ namespace Tetris
     // Getters
     int width(void) const;
     int height(void) const;
-    int get(int i, int j) const;
+    TetriminoType get(int i, int j) const;
     Tetrimino current_tetrimino(void) const;
     // Methods
     int speed(void) const;

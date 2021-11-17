@@ -20,6 +20,7 @@ namespace Tetris
   // Shape of the tetrimino
   enum TetriminoType
   {
+    NONE = 0,
     I = 1,
     J,
     L,
@@ -28,6 +29,19 @@ namespace Tetris
     T,
     Z
   };
+  enum TetriminoColor
+  {
+    COLOR_NONE = -1,
+    COLOR_I = 0x33,
+    COLOR_J = 0x11,
+    COLOR_L = 0xCC,
+    COLOR_O = 0xEE,
+    COLOR_S = 0xAA,
+    COLOR_T = 0xDD,
+    COLOR_Z = 0x44
+  };
+  int get_color_from_tetrimino(TetriminoType tetrimino_type);
+  int get_color_from_tetrimino(int tetrimino_type);
   // "Includo" a modo mio la classe TetrisGrid
   class TetrisGrid;
   // Tetrimino class
@@ -47,11 +61,17 @@ namespace Tetris
     Tetrimino();
     Tetrimino(TetriminoType type, TetrisGrid *grid);
     ~Tetrimino();
+    // Getters
+    TetriminoType type(void) const;
     // Assignment operator
     Tetrimino &operator=(const Tetrimino &other);
 
-    void rotate(short times);
-    void move(short x_amount, short y_amount = 0);
+    // Conditionals
+    bool can_rotate(short times) const;
+    bool can_move(short x_amount, short y_amount = 0) const;
+    // Actions
+    bool rotate(short times);
+    bool move(short x_amount, short y_amount = 0);
 
     bool is_occupied(short x, short y);
   };

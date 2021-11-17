@@ -4,6 +4,29 @@
 
 namespace Tetris
 {
+  int get_color_from_tetrimino(TetriminoType tetrimino_type)
+  {
+    switch (tetrimino_type)
+    {
+    case I:
+      return COLOR_I;
+    case J:
+      return COLOR_J;
+    case L:
+      return COLOR_L;
+    case O:
+      return COLOR_O;
+    case S:
+      return COLOR_S;
+    case T:
+      return COLOR_T;
+    case Z:
+      return COLOR_Z;
+    default:
+      return COLOR_NONE;
+    }
+  }
+  int get_color_from_tetrimino(int tetrimino_type) { return get_color_from_tetrimino(TetriminoType(tetrimino_type)); }
   // Constructor
   TetrisGrid::TetrisGrid()
   {
@@ -27,10 +50,10 @@ namespace Tetris
   // Inizializzo la matrice
   void TetrisGrid::initialize_matrix(void)
   {
-    _grid = new int[_width * _height];
+    _grid = new TetriminoType[_width * _height];
     for (int i = 0; i < _width * _height; i++)
     {
-      _grid[i] = 0;
+      _grid[i] = TetriminoType::NONE;
     }
   }
   // Inizializzo il prossimo blocco
@@ -48,7 +71,7 @@ namespace Tetris
   // Getters
   int TetrisGrid::width(void) const { return _width; }
   int TetrisGrid::height(void) const { return _height; }
-  int TetrisGrid::get(int i, int j) const
+  TetriminoType TetrisGrid::get(int i, int j) const
   {
     return _grid[i + j * _width];
   }
@@ -97,12 +120,10 @@ namespace Tetris
     switch (key)
     {
     case KEY_SPACE:
-      // TODO Rotate inverse
       rotate_counter();
       break;
     case KEY_UP:
     case KEY_W:
-      // TODO Rotate
       rotate();
       break;
     case KEY_DOWN:
