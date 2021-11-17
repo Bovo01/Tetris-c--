@@ -156,7 +156,23 @@ namespace Tetris
       {
         get(positions[i].x, positions[i].y) = _currentTetrimino.type();
       }
-      delete_lines();
+      int deleted_lines = delete_lines();
+      if (deleted_lines)
+      {
+        if (deleted_lines == 4)
+        {
+          _score += 800;
+          if (_is_possible_back_to_back)
+            _score += 1200;
+          _is_possible_back_to_back = true;
+        }
+        else
+        {
+          _score += deleted_lines * 100;
+          _is_possible_back_to_back = false;
+        }
+        _level = _score / 1000 + 1;
+      }
       next_tetrimino();
     }
   }

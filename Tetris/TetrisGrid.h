@@ -23,6 +23,7 @@ namespace Tetris
     Tetrimino _currentTetrimino;
 
     bool _is_game_over{false};
+    bool _is_possible_back_to_back{false};
 
     // Private methods
     void initialize_matrix(void);
