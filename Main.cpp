@@ -1,5 +1,6 @@
 #include "./Tetris/TetrisGrid.h"
 #include "./Tetris/Tetrimino.h"
+#include "./Tetris/TetrisDrawer.cpp"
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
@@ -12,6 +13,7 @@ void draw(void);
 void go_down(void);
 
 // Global variables
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 TetrisGrid grid;
 
 int main()
@@ -21,25 +23,19 @@ int main()
   while (!grid.is_game_over())
   {
     grid.key_pressed(_getch());
-    draw();
+    draw(grid);
   }
 
   return 0;
 }
 
 // Functions
-void draw(void)
-{
-  system("cls");
-  grid.draw();
-}
-
 void go_down(void)
 {
   while (!grid.is_game_over())
   {
     Sleep(grid.speed());
     grid.move_down();
-    draw();
+    draw(grid);
   }
 }

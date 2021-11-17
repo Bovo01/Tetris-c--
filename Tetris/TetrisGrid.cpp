@@ -61,11 +61,6 @@ namespace Tetris
   bool TetrisGrid::is_game_over(void) const { return false; } // TODO check if game is over
 
   // Graphics
-  void TetrisGrid::draw(void) const
-  {
-    std::cout << *this << std::endl;
-  }
-  // Graphics
   std::ostream &operator<<(std::ostream &os, const TetrisGrid &grid)
   {
     // Disegno il gioco (con una cornice) per righe
@@ -112,17 +107,14 @@ namespace Tetris
       break;
     case KEY_DOWN:
     case KEY_S:
-      // TODO Move down
       move_down();
       break;
     case KEY_LEFT:
     case KEY_A:
-      // TODO Move left
       move_left();
       break;
     case KEY_RIGHT:
     case KEY_D:
-      // TODO Move right
       move_right();
       break;
     case ESC:
