@@ -6,11 +6,12 @@
 
 namespace Tetris
 {
-  // Constructor
+  // Constructors
   Tetrimino::Tetrimino() {}
   Tetrimino::Tetrimino(TetriminoType type, TetrisGrid *grid) : _type(type), _grid(grid)
   {
-    initialize_position(type);
+    initialize_pivot((int)_grid->width() / 2);
+    initialize_position();
     for (int i = 0; i < 4; i++)
     {
       if (_grid->get(_positions[i].x, _positions[i].y) != TetriminoType::NONE)
@@ -20,69 +21,96 @@ namespace Tetris
       }
     }
   }
+  Tetrimino::Tetrimino(TetriminoType type, short x_offset, short y_offset)
+      : _type(type)
+  {
+    initialize_pivot(x_offset, y_offset);
+    initialize_position();
+  }
   // Destructor
   Tetrimino::~Tetrimino() {}
 
-  // Initialize pivot and blocks
-  void Tetrimino::initialize_position(TetriminoType type)
+  // Initialize pivot
+  void Tetrimino::initialize_pivot(short x_offset, short y_offset)
   {
-    switch (type)
+    switch (_type)
     {
     case I:
-      _pivot_x = ((int)_grid->width() / 2) - .5;
-      _pivot_y = .5;
-      _positions[0] = Position(_pivot_x - 1.5, 0);
-      _positions[1] = Position(_pivot_x - .5, 0);
-      _positions[2] = Position(_pivot_x + .5, 0);
-      _positions[3] = Position(_pivot_x + 1.5, 0);
+      _pivot_x = x_offset - .5;
+      _pivot_y = y_offset + .5;
       break;
     case J:
-      _pivot_x = ((int)_grid->width() / 2);
-      _pivot_y = 1;
-      _positions[0] = Position(_pivot_x - 1, 1);
-      _positions[1] = Position(_pivot_x, 1);
-      _positions[2] = Position(_pivot_x + 1, 1);
-      _positions[3] = Position(_pivot_x + 1, 0);
+      _pivot_x = x_offset;
+      _pivot_y = y_offset + 1;
       break;
     case L:
-      _pivot_x = ((int)_grid->width() / 2);
-      _pivot_y = 1;
-      _positions[0] = Position(_pivot_x - 1, 1);
-      _positions[1] = Position(_pivot_x, 1);
-      _positions[2] = Position(_pivot_x + 1, 1);
-      _positions[3] = Position(_pivot_x - 1, 0);
+      _pivot_x = x_offset;
+      _pivot_y = y_offset + 1;
       break;
     case O:
-      _pivot_x = ((int)_grid->width() / 2) - .5;
-      _pivot_y = .5;
-      _positions[0] = Position(_pivot_x - .5, 0);
-      _positions[1] = Position(_pivot_x + .5, 0);
-      _positions[2] = Position(_pivot_x - .5, 1);
-      _positions[3] = Position(_pivot_x + .5, 1);
+      _pivot_x = x_offset - .5;
+      _pivot_y = y_offset + .5;
       break;
     case S:
-      _pivot_x = (int)_grid->width() / 2;
-      _pivot_y = 1;
-      _positions[0] = Position(_pivot_x - 1, 1);
-      _positions[1] = Position(_pivot_x, 1);
-      _positions[2] = Position(_pivot_x, 0);
-      _positions[3] = Position(_pivot_x + 1, 0);
-      break;
-    case Z:
-      _pivot_x = (int)_grid->width() / 2;
-      _pivot_y = 1;
-      _positions[0] = Position(_pivot_x + 1, 1);
-      _positions[1] = Position(_pivot_x, 1);
-      _positions[2] = Position(_pivot_x, 0);
-      _positions[3] = Position(_pivot_x - 1, 0);
+      _pivot_x = x_offset;
+      _pivot_y = y_offset + 1;
       break;
     case T:
-      _pivot_x = (int)_grid->width() / 2;
-      _pivot_y = 1;
-      _positions[0] = Position(_pivot_x + 1, 1);
-      _positions[1] = Position(_pivot_x, 1);
-      _positions[2] = Position(_pivot_x, 0);
-      _positions[3] = Position(_pivot_x - 1, 1);
+      _pivot_x = x_offset;
+      _pivot_y = y_offset + 1;
+      break;
+    case Z:
+      _pivot_x = x_offset;
+      _pivot_y = y_offset + 1;
+    }
+  }
+
+  // Initialize blocks
+  void Tetrimino::initialize_position(void)
+  {
+    switch (_type)
+    {
+    case I:
+      _positions[0] = Position(_pivot_x - 1.5, _pivot_y - .5);
+      _positions[1] = Position(_pivot_x - .5, _pivot_y - .5);
+      _positions[2] = Position(_pivot_x + .5, _pivot_y - .5);
+      _positions[3] = Position(_pivot_x + 1.5, _pivot_y - .5);
+      break;
+    case J:
+      _positions[0] = Position(_pivot_x - 1, _pivot_y);
+      _positions[1] = Position(_pivot_x, _pivot_y);
+      _positions[2] = Position(_pivot_x + 1, _pivot_y);
+      _positions[3] = Position(_pivot_x + 1, _pivot_y - 1);
+      break;
+    case L:
+      _positions[0] = Position(_pivot_x - 1, _pivot_y);
+      _positions[1] = Position(_pivot_x, _pivot_y);
+      _positions[2] = Position(_pivot_x + 1, _pivot_y);
+      _positions[3] = Position(_pivot_x - 1, _pivot_y - 1);
+      break;
+    case O:
+      _positions[0] = Position(_pivot_x - .5, _pivot_y - .5);
+      _positions[1] = Position(_pivot_x + .5, _pivot_y - .5);
+      _positions[2] = Position(_pivot_x - .5, _pivot_y + .5);
+      _positions[3] = Position(_pivot_x + .5, _pivot_y + .5);
+      break;
+    case S:
+      _positions[0] = Position(_pivot_x - 1, _pivot_y);
+      _positions[1] = Position(_pivot_x, _pivot_y);
+      _positions[2] = Position(_pivot_x, _pivot_y - 1);
+      _positions[3] = Position(_pivot_x + 1, _pivot_y - 1);
+      break;
+    case T:
+      _positions[0] = Position(_pivot_x + 1, _pivot_y);
+      _positions[1] = Position(_pivot_x, _pivot_y);
+      _positions[2] = Position(_pivot_x, _pivot_y - 1);
+      _positions[3] = Position(_pivot_x - 1, _pivot_y);
+      break;
+    case Z:
+      _positions[0] = Position(_pivot_x + 1, _pivot_y);
+      _positions[1] = Position(_pivot_x, _pivot_y);
+      _positions[2] = Position(_pivot_x, _pivot_y - 1);
+      _positions[3] = Position(_pivot_x - 1, _pivot_y - 1);
     }
   }
 
