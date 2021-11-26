@@ -8,8 +8,8 @@ namespace Tetris
   {
     Position() {}
     Position(short x, short y) : x(x), y(y) {}
-    float x{4};
-    float y{0};
+    short x{4};
+    short y{0};
     Position &operator=(const Position &other)
     {
       x = other.x;
@@ -54,12 +54,14 @@ namespace Tetris
     Position _positions[4];
     TetrisGrid *_grid;
 
-    void initialize_position(TetriminoType type);
+    void initialize_pivot(short x_offset, short y_offset = 0);
+    void initialize_position(void);
 
   public:
     // Constructor / Destructor
     Tetrimino();
     Tetrimino(TetriminoType type, TetrisGrid *grid);
+    Tetrimino(TetriminoType type, short x_offset, short y_offset);
     ~Tetrimino();
     // Getters
     TetriminoType type(void) const;
@@ -74,7 +76,6 @@ namespace Tetris
     // Actions
     bool rotate(short times);
     bool move(short x_amount, short y_amount = 0);
-    int delete_lines(void);
   };
 }
 

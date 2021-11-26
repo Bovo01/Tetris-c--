@@ -14,10 +14,10 @@ namespace Tetris
     TetriminoType *_grid;
     int _width{10};
     int _height{20};
-    int _score{0};
+    unsigned int _score{0};
     int _level{1};
     // Array of the next tetriminos
-    int *_nextTetriminos;
+    TetriminoType *_nextTetriminos;
     int _nextTetriminosNumber{4};
     // Object of the current tetrimino
     Tetrimino _currentTetrimino;
@@ -39,8 +39,12 @@ namespace Tetris
     int height(void) const;
     TetriminoType &get(int i, int j) const;
     Tetrimino current_tetrimino(void) const;
+    TetriminoType get_next_tetrimino(short index) const;
     // Methods
-    int speed(void) const;
+    unsigned int score (void) const;
+    unsigned short int level(void) const;
+    unsigned short int next_tetriminos_number(void) const;
+    unsigned int speed(void) const;
     bool is_game_over(void) const;
 
     // Tetrimino modification

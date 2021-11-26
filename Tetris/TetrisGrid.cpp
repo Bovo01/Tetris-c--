@@ -33,13 +33,13 @@ namespace Tetris
     srand((unsigned)time(0)); // Creo un seed random
     initialize_matrix();      // Inizializzo la matrice
     // Inizializzo i prossimi blocchi
-    _nextTetriminos = new int[_nextTetriminosNumber];
+    _nextTetriminos = new TetriminoType[_nextTetriminosNumber];
     for (int i = 0; i < _nextTetriminosNumber; i++)
     {
-      _nextTetriminos[i] = rand() % 7 + 1;
+      _nextTetriminos[i] = TetriminoType(rand() % 7 + 1);
     }
     _currentTetrimino =
-        {static_cast<TetriminoType>(rand() % 7 + 1), this};
+        {TetriminoType(rand() % 7 + 1), this};
   }
   // Destructor
   TetrisGrid::~TetrisGrid()
@@ -60,12 +60,12 @@ namespace Tetris
   void TetrisGrid::next_tetrimino(void)
   {
     _currentTetrimino =
-        {static_cast<TetriminoType>(rand() % 7 + 1), this};
+        {_nextTetriminos[0], this};
     for (int i = 0; i < _nextTetriminosNumber - 1; i++)
     {
       _nextTetriminos[i] = _nextTetriminos[i + 1];
     }
-    _nextTetriminos[_nextTetriminosNumber - 1] = rand() % 7 + 1;
+    _nextTetriminos[_nextTetriminosNumber - 1] = TetriminoType(rand() % 7 + 1);
   }
 
   // Getters
@@ -79,8 +79,12 @@ namespace Tetris
   {
     return _currentTetrimino;
   }
+  TetriminoType TetrisGrid::get_next_tetrimino(short index) const { return _nextTetriminos[index]; }
   // Methods
-  int TetrisGrid::speed(void) const { return 1000 / _level; }
+  unsigned int TetrisGrid::score(void) const { return _score; };
+  unsigned short TetrisGrid::level(void) const { return _level; };
+  unsigned short int TetrisGrid::next_tetriminos_number(void) const { return _nextTetriminosNumber; };
+  unsigned int TetrisGrid::speed(void) const { return 1000 / _level; }
   bool TetrisGrid::is_game_over(void) const { return _is_game_over; } // TODO check if game is over
 
   // Graphics

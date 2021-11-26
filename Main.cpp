@@ -9,21 +9,23 @@ using namespace Tetris;
 using namespace std;
 
 // Firme di funzioni
-void draw(void);
 void go_down(void);
+void input_manager(void);
 
 // Global variables
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 TetrisGrid grid;
+unsigned short int fps = 75;
 
 int main()
 {
   thread _go_down{go_down};
+  thread _input_manager{input_manager};
 
   while (!grid.is_game_over())
   {
-    grid.key_pressed(_getch());
-    draw(grid, hConsole);
+    Sleep(1000 / fps);
+    Tetris::draw(grid, hConsole);
   }
 
   return 0;
@@ -36,6 +38,13 @@ void go_down(void)
   {
     Sleep(grid.speed());
     grid.move_down();
-    draw(grid, hConsole);
+  }
+}
+// Gestisce gli input da tastiera
+void input_manager(void)
+{
+  while (!grid.is_game_over())
+  {
+    grid.key_pressed(_getch());
   }
 }
